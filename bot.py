@@ -10,6 +10,9 @@ import uuid
 from pathlib import Path
 from dotenv import load_dotenv
 
+import threading
+from http.server import BaseHTTPRequestHandler, HTTPServer
+
 import yt_dlp
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import (
@@ -729,7 +732,22 @@ async def error_handler(update: object, context: ContextTypes.DEFAULT_TYPE):
     logger.error(f"خطأ: {context.error}")
 
 
+def start_dummy_server():
+    """خادم ويب وهمي لاجتياز فحص Render للـ Web Services"""
+    port = int(os.environ.get("PORT", 10000))
+    
+    class DummyHandler(BaseHTTPRequestHandler):
+        def do_GET(self):
+            self.send_response(200)
+            self.end_headers()
+            self.wfile.write(b"Bot is running 24/7!")
+            
+    server = HTTPServer(("0.0.0.0", port), DummyHandler)
+    threading.Thread(target=server.serve_forever, daemon=True).start()
+    logger.info(f"🌐 خادم الويب الوهمي يعمل على البورت {port}")
+
 def main():
+    start_dummy_server()
     app = Application.builder().token(BOT_TOKEN).build()
 
     app.add_handler(CommandHandler("start", start_command))
