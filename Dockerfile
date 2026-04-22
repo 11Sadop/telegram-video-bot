@@ -20,7 +20,10 @@ WORKDIR /app
 # نسخ ملف المتطلبات أولاً للاستفادة من الـ caching
 COPY requirements.txt .
 
-# تثبيت مكتبات Python
+# تثبيت PyTorch نسخة CPU فقط لتفادي فشل البناء (Out of Memory) على سيرفرات Render
+RUN pip install --no-cache-dir torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+
+# تثبيت باقي مكتبات Python
 RUN pip install --no-cache-dir -r requirements.txt
 
 # نسخ باقي ملفات المشروع
