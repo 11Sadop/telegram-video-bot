@@ -1,0 +1,14 @@
+services:
+  - type: worker
+    name: video-download-bot
+    env: docker
+    plan: free
+    dockerContext: .
+    dockerfilePath: Dockerfile
+    envVars:
+      - key: BOT_TOKEN
+        sync: false
+      - key: ENABLE_FRAME_CHECK
+        value: "true"
+      - key: ENABLE_AUDIO_CHECK
+        value: "true"
