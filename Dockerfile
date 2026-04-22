@@ -5,9 +5,11 @@ FROM python:3.11-slim
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-# تثبيت التبعيات النظامية (FFmpeg مهم جداً لعمل البوت)
+# تثبيت التبعيات النظامية (FFmpeg مهم جداً، و libgl1 لـ OpenCV)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ffmpeg \
+    libgl1-mesa-glx \
+    libglib2.0-0 \
     build-essential \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
