@@ -7,3 +7,7 @@ python-dotenv==1.0.1
 nudenet==3.4.2
 faster-whisper==1.0.3
 onnxruntime==1.19.2
+
+# مكتبات إزالة النصوص من الفيديو
+easyocr==1.7.2
+opencv-python-headless==4.10.0.84
